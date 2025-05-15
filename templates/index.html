@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Editing App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    darkMode: 'class'
+  };
+</script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.getElementById("theme-toggle");
+      toggleBtn.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white">
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-center">Web Editing App</h1>
+
+    <form action="/" method="post" enctype="multipart/form-data" class="flex flex-col items-center gap-4 mb-8">
+      <input type="file" name="image" accept="image/*" required class="border rounded px-3 py-2">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Upload</button>
+    </form>
+
+    {% if image %}
+    <div class="mb-6 text-center">
+      <img src="/{{ image }}" alt="Processed Image" class="mx-auto rounded shadow-md max-h-[500px]">
+    </div>
+
+    <form action="/" method="post" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <label class="flex flex-col">
+        Blur Intensity
+        <input type="range" name="k" min="1" max="21" step="2" value="5">
+      </label>
+      <label class="flex flex-col">
+        Edge Threshold 1
+        <input type="range" name="t1" min="0" max="255" value="100">
+      </label>
+      <label class="flex flex-col">
+        Edge Threshold 2
+        <input type="range" name="t2" min="0" max="255" value="200">
+      </label>
+      <label class="flex flex-col">
+        Brightness
+        <input type="range" name="value" min="-100" max="100" value="0">
+      </label>
+      <label class="flex flex-col">
+        Contrast
+        <input type="range" name="value" min="0.5" max="3" step="0.1" value="1.0">
+      </label>
+
+      <div class="col-span-full flex flex-wrap gap-2 justify-center">
+        <button name="operation" value="grayscale" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Grayscale</button>
+        <button name="operation" value="blur" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Blur</button>
+        <button name="operation" value="canny" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Edge Detect</button>
+        <button name="operation" value="sharpen" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Sharpen</button>
+        <button name="operation" value="brightness" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Brightness</button>
+        <button name="operation" value="contrast" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Contrast</button>
+        <button name="operation" value="flip" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Flip</button>
+        <button name="operation" value="rotate" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Rotate</button>
+        <button name="operation" value="bw" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Black & White</button>
+        <button name="operation" value="noise" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Add Noise</button>
+        <button name="operation" value="remove_bg" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Remove Background</button>
+        <button name="operation" value="undo" class="inline-block bg-indigo-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Undo</button>
+        <button name="operation" value="redo" class="inline-block bg-indigo-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded">Redo</button>
+      </div>
+    </form>
+
+    <div class="text-center mb-4">
+      <a href="/download" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Download Processed Image</a>
+    </div>
+    {% endif %}
+
+    <div class="text-center">
+      <button id="theme-toggle" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">Toggle Theme</button>
+    </div>
+  </div>
+
+  <style>
+    .btn {
+      @apply inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+    }
+  </style>
+</body>
+</html>
